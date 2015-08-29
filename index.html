@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Alcohol Calculator for Beer and Other Drinks</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <section class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Alcohol Calculator for Drinks</h1>
+                    <p>In the US, a "drink" is considered to be 0.6 fluid ounces of alcohol, which approximately translates into <a href="http://rethinkingdrinking.niaaa.nih.gov/whatcountsdrink/whatsastandarddrink.asp">12oz of 5% beer</a>. But what if you have a 22oz beer with 6.2% alcohol or two 20oz beers at 8% alcohol? This can be dangerous. I wanted a quick way to check.</p>
+                    <p class="danger">This webpage is for my personal experimentation only and may not be accurate.</p>
+
+                    <form>
+                        <div class="form-group">
+                            <label for="alcoholPercentage">Alcohol Percentage</label>
+                            <input type="text" class="form-control" id="alcoholPercentage" placeholder="Example: 5.2%">
+                        </div>
+                        <div class="form-group">
+                            <label for="numDrinks">Number of Drinks</label>
+                            <input type="text" class="form-control" id="numDrinks" placeholder="Example: 2">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkSize">Drink Size in Ounces</label>
+                            <select class="form-control" id="numDrinks">
+                                <option data-size-value="1.5">Shot</option>
+                                <option data-size-value="6">6 oz</option>
+                                <option data-size-value="8">8 oz</option>
+                                <option data-size-value="10">10 oz</option>
+                                <option data-size-value="12">12 oz</option>
+                                <option data-size-value="16" selected>16 oz (pint)</option>
+                                <option data-size-value="20">20 oz</option>
+                                <option data-size-value="22">22 oz (1 pint, 6 ounces)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script>
+        
+        </script>
+    </body>
+</html>
