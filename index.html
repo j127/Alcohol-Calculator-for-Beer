@@ -17,7 +17,7 @@
                 <div class="col-lg-12">
                     <h1>Alcohol Calculator for Drinks</h1>
                     <p>In the US, a "drink" is considered to be 0.6 fluid ounces of alcohol, which approximately translates into <a href="http://rethinkingdrinking.niaaa.nih.gov/whatcountsdrink/whatsastandarddrink.asp">12oz of 5% beer</a>. But what if you have a 22oz beer with 6.2% alcohol or two 20oz beers at 8% alcohol? This can be dangerous. I wanted a quick way to check.</p>
-                    <h2 class="text-danger">This webpage is for my personal experimentation only and may not be accurate.</h2>
+                    <h4 class="text-danger">This webpage is for my personal experimentation only and may not be accurate.</h4>
 
                     <form>
                         <div class="form-group">
@@ -30,28 +30,97 @@
                         </div>
                         <div class="form-group">
                             <label for="drinkSize">Drink Size in Ounces</label>
-                            <select class="form-control" id="numDrinks">
-                                <option data-size-value="1.5">Shot</option>
-                                <option data-size-value="6">6 oz</option>
-                                <option data-size-value="8">8 oz</option>
-                                <option data-size-value="10">10 oz</option>
-                                <option data-size-value="12">12 oz</option>
-                                <option data-size-value="16" selected>16 oz (pint)</option>
-                                <option data-size-value="20">20 oz</option>
-                                <option data-size-value="22">22 oz (1 pint, 6 ounces)</option>
+                            <select class="form-control" id="drinkSize">
+                                <option value="1.5">Shot</option>
+                                <option value="6">6 oz</option>
+                                <option value="8">8 oz</option>
+                                <option value="10">10 oz</option>
+                                <option value="12">12 oz</option>
+                                <option value="16" selected>16 oz (pint)</option>
+                                <option value="20">20 oz</option>
+                                <option value="22">22 oz (1 pint, 6 ounces)</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#resultsModal" id="resultsButton">Submit</button>
                     </form>
-
                 </div>
             </div>
         </section>
 
+        <div id="resultsModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Alcohol Content</h4>
+                    </div>
+                    <div class="modal-body" id="resultsOutput"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close Results</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/x-handlebars-template" id="outputTemplate">
+            <p>{{ numDrinks }} {{ ounces }}-ounce drinks with {{ alcoholContent }}% alcohol:</p>
+            <h2>{{ numDrinksResult }} "drinks"</h2>
+        </script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script>
-        
+            $(document).ready(function () {
+
+                function calculateResults() {
+                    // Clear any old results
+                    $('#resultsOutput').html('');
+
+                    // Strip percent sign, if it exists
+                    var alcoholPercentage = $('#alcoholPercentage').val().replace(/%/g, '');
+                    var numDrinks = $('#numDrinks').val();
+                    console.log(numDrinks);
+
+                    var drinkSize = $('#drinkSize').val();
+                    console.log('drinkSize', drinkSize);
+
+                    var alcoholContent = (alcoholPercentage / 100) * drinkSize;
+                    console.log('alcoholContent', alcoholContent);
+
+                    var usDrinkSize = 0.6; // ounces
+                    console.log('usDrinkSize', usDrinkSize);
+
+                    var numDrinksResult = Math.round(alcoholContent / usDrinkSize * numDrinks * 100) / 100;
+                    console.log('numDrinksResult', numDrinksResult);
+
+                    var results = {
+                        'numDrinks': numDrinks,
+                        'ounces': drinkSize,
+                        'alcoholContent': alcoholPercentage,
+                        'numDrinksResult': numDrinksResult,
+                    }
+                    console.log(results);
+
+                    renderTemplate('#outputTemplate', '#resultsOutput', results);
+                }
+
+                function renderTemplate(sourceId, targetId, data) {
+                    var source = $(sourceId).html()
+                    var template = Handlebars.compile(source);
+                    var html = template(data);
+                    $(targetId).append(html);
+                }
+
+                // Events
+                $('#resultsButton').on('click', function (e) {
+                    e.preventDefault();
+                    calculateResults();
+                });
+
+                $('input').on('focus', function () {
+                    $(this).select();
+                });
+            });
         </script>
     </body>
 </html>
