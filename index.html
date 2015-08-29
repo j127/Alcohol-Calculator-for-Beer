@@ -22,15 +22,15 @@
                     <form>
                         <div class="form-group">
                             <label for="alcoholPercentage">Alcohol Percentage</label>
-                            <input type="text" class="form-control" id="alcoholPercentage" placeholder="Example: 5.2">
+                            <input type="text" class="form-control" id="alcoholPercentage" placeholder="Example: 5.2%">
                         </div>
                         <div class="form-group">
-                            <label for="numDrinks">Number of Drinks</label>
-                            <input type="text" class="form-control" id="numDrinks" placeholder="Example: 2">
+                            <label for="numServings">Number of Servings</label>
+                            <input type="text" class="form-control" id="numServings" placeholder="Example: 2">
                         </div>
                         <div class="form-group">
-                            <label for="drinkSize">Drink Size in Ounces</label>
-                            <select class="form-control" id="drinkSize">
+                            <label for="servingSize">Serving Size in Ounces</label>
+                            <select class="form-control" id="servingSize">
                                 <option value="1.5">Shot</option>
                                 <option value="6">6 oz</option>
                                 <option value="8">8 oz</option>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <script type="text/x-handlebars-template" id="outputTemplate">
-            <p>{{ numDrinks }} {{ ounces }}-ounce drinks with {{ alcoholContent }}% alcohol:</p>
+            <p>{{ numServings }} {{ ounces }}-ounce servings with {{ alcoholContent }}% alcohol:</p>
             <h2>{{ numDrinksResult }} "drinks"</h2>
         </script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -78,28 +78,17 @@
 
                     // Strip percent sign, if it exists
                     var alcoholPercentage = $('#alcoholPercentage').val().replace(/%/g, '');
-                    var numDrinks = $('#numDrinks').val();
-                    console.log(numDrinks);
-
-                    var drinkSize = $('#drinkSize').val();
-                    console.log('drinkSize', drinkSize);
-
-                    var alcoholContent = (alcoholPercentage / 100) * drinkSize;
-                    console.log('alcoholContent', alcoholContent);
-
+                    var numServings = $('#numServings').val();
+                    var servingSize = $('#servingSize').val();
+                    var alcoholContent = (alcoholPercentage / 100) * servingSize;
                     var usDrinkSize = 0.6; // ounces
-                    console.log('usDrinkSize', usDrinkSize);
-
-                    var numDrinksResult = Math.round(alcoholContent / usDrinkSize * numDrinks * 100) / 100;
-                    console.log('numDrinksResult', numDrinksResult);
-
+                    var numDrinksResult = Math.round(alcoholContent / usDrinkSize * numServings * 100) / 100;
                     var results = {
-                        'numDrinks': numDrinks,
-                        'ounces': drinkSize,
+                        'numServings': numServings,
+                        'ounces': servingSize,
                         'alcoholContent': alcoholPercentage,
                         'numDrinksResult': numDrinksResult,
                     }
-                    console.log(results);
 
                     renderTemplate('#outputTemplate', '#resultsOutput', results);
                 }
